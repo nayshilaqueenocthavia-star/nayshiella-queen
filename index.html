@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TokoKita - Belanja Online</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        header {
+            background: linear-gradient(135deg, #ff6b00, #ff9500);
+            color: white;
+            padding: 15px 7%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 3px 10px rgba(0,0,0,.15);
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .search-box {
+            flex: 1;
+            display: flex;
+            max-width: 600px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            outline: none;
+            border-radius: 8px 0 0 8px;
+            font-size: 15px;
+        }
+
+        .search-box button {
+            border: none;
+            background: #222;
+            color: white;
+            padding: 0 20px;
+            cursor: pointer;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .cart-button {
+            border: none;
+            background: white;
+            color: #ff6b00;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .hero {
+            min-height: 330px;
+            display: flex;
+            align-items: center;
+            padding: 50px 7%;
+            color: white;
+            background:
+                linear-gradient(
+                    rgba(0,0,0,.45),
+                    rgba(0,0,0,.45)
+                ),
+                linear-gradient(135deg, #ff6b00, #ff1744);
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 19px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .hero button {
+            padding: 13px 25px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: #ff6b00;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .container {
+            width: 86%;
+            margin: 35px auto;
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .categories {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .category {
+            background: white;
+            border: 2px solid transparent;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .category:hover,
+        .category.active {
+            background: #ff6b00;
+            color: white;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 3px 12px rgba(0,0,0,.08);
+            transition: .3s;
+            position: relative;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,.15);
+        }
+
+        .product-image {
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eee;
+            font-size: 75px;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-name {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .rating {
+            color: #ffb000;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            color: #ff5500;
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .buy-button {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            background: #ff6b00;
+            color: white;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .buy-button:hover {
+            background: #e95b00;
+        }
+
+        .favorite {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            border: none;
+            background: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 19px;
+        }
+
+        .empty {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 50px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        footer {
+            background: #222;
+            color: white;
+            margin-top: 50px;
+            padding: 40px 7%;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        footer h3 {
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            color: #ccc;
+            line-height: 1.7;
+        }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid #444;
+            margin-top: 30px;
+            padding-top: 20px;
+            color: #aaa;
+        }
+
+        .cart-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .cart-modal.show {
+            display: flex;
+        }
+
+        .cart {
+            background: white;
+            width: 90%;
+            max-width: 550px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            border: none;
+            background: #eee;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-item-image {
+            width: 55px;
+            height: 55px;
+            background: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 25px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .quantity {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .quantity button {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: #ff6b00;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .checkout {
+            width: 100%;
+            border: none;
+            background: #20a83a;
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 18px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #222;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 8px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: .3s;
+            z-index: 3000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 900px) {
+            .products {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 650px) {
+            .navbar {
+                flex-wrap: wrap;
+            }
+
+            .logo {
+                width: 100%;
+                text-align: center;
+            }
+
+            .search-box {
+                order: 3;
+                flex-basis: 100%;
+            }
+
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero {
+                padding: 40px 7%;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 92%;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .products {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">🛍️ TokoKita</div>
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Cari produk..."
+                    onkeyup="searchProduct()"
+                >
+                <button onclick="searchProduct()">🔍</button>
+            </div>
+
+            <button class="cart-button" onclick="openCart()">
+                🛒 Keranjang
+                (<span id="cartCount">0</span>)
+            </button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Belanja Mudah, Harga Bersahabat!</h1>
+            <p>
+                Temukan berbagai produk favoritmu dengan harga terbaik.
+                Belanja online jadi lebih mudah bersama TokoKita.
+            </p>
+            <button onclick="scrollToProducts()">
+                Belanja Sekarang
+            </button>
+        </div>
+    </section>
+
+    <main class="container" id="productSection">
+
+        <h2 class="section-title">Kategori</h2>
+
+        <div class="categories">
+            <button
+                class="category active"
+                onclick="filterCategory('Semua', this)"
+            >
+                Semua
+            </button>
+
+            <button
+                class="category"
+                onclick="filterCategory('Elektronik', this)"
+            >
+                📱 Elektronik
+            </button>
+
+            <button
+                class="category"
+                onclick="filterCategory('Fashion', this)"
+            >
+                👕 Fashion
+            </button>
+
+            <button
+                class="category"
+                onclick="filterCategory('Sepatu', this)"
+            >
+                👟 Sepatu
+            </button>
+
+            <button
+                class="category"
+                onclick="filterCategory('Aksesoris', this)"
+            >
+                🎧 Aksesoris
+            </button>
+        </div>
+
+        <h2 class="section-title">Produk Terbaru</h2>
+
+        <div class="products" id="productList"></div>
+
+    </main>
+
+    <footer>
+        <div class="footer-content">
+
+            <div>
+                <h3>🛍️ TokoKita</h3>
+                <p>
+                    Toko online sederhana untuk kebutuhan
+                    sehari-hari dengan harga terjangkau.
+                </p>
+            </div>
+
+            <div>
+                <h3>Layanan</h3>
+                <p>Pengiriman Cepat</p>
+                <p>Pembayaran Aman</p>
+                <p>Customer Service</p>
+                <p>Garansi Produk</p>
+            </div>
+
+            <div>
+                <h3>Hubungi Kami</h3>
+                <p>📧 support@tokokita.com</p>
+                <p>📱 0812-3456-7890</p>
+                <p>📍 Indonesia</p>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            © 2026 TokoKita. Semua Hak Dilindungi.
+        </div>
+    </footer>
+
+    <div class="cart-modal" id="cartModal">
+        <div class="cart">
+
+            <div class="cart-header">
+                <h2>🛒 Keranjang Belanja</h2>
+
+                <button class="close" onclick="closeCart()">
+                    ×
+                </button>
+            </div>
+
+            <div id="cartItems"></div>
+
+            <div class="cart-total">
+                <span>Total</span>
+                <span id="cartTotal">Rp0</span>
+            </div>
+
+            <button class="checkout" onclick="checkout()">
+                💳 Checkout Sekarang
+            </button>
+
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        Produk berhasil ditambahkan!
+    </div>
+
+    <script>
+
+        const products = [
+            {
+                id: 1,
+                name: "Smartphone Android",
+                category: "Elektronik",
+                price: 2499000,
+                icon: "📱",
+                rating: 4.8
+            },
+            {
+                id: 2,
+                name: "Laptop Pro",
+                category: "Elektronik",
+                price: 7499000,
+                icon: "💻",
+                rating: 4.9
+            },
+            {
+                id: 3,
+                name: "Headphone Wireless",
+                category: "Aksesoris",
+                price: 399000,
+                icon: "🎧",
+                rating: 4.7
+            },
+            {
+                id: 4,
+                name: "Smart Watch",
+                category: "Elektronik",
+                price: 699000,
+                icon: "⌚",
+                rating: 4.6
+            },
+            {
+                id: 5,
+                name: "Kaos Premium",
+                category: "Fashion",
+                price: 129000,
+                icon: "👕",
+                rating: 4.8
+            },
+            {
+                id: 6,
+                name: "Jaket Casual",
+                category: "Fashion",
+                price: 299000,
+                icon: "🧥",
+                rating: 4.7
+            },
+            {
+                id: 7,
+                name: "Sepatu Sneakers",
+                category: "Sepatu",
+                price: 459000,
+                icon: "👟",
+                rating: 4.9
+            },
+            {
+                id: 8,
+                name: "Sepatu Running",
+                category: "Sepatu",
+                price: 599000,
+                icon: "👟",
+                rating: 4.8
+            },
+            {
+                id: 9,
+                name: "Tas Backpack",
+                category: "Fashion",
+                price: 249000,
+                icon: "🎒",
+                rating: 4.6
+            },
+            {
+                id: 10,
+                name: "Kacamata Fashion",
+                category: "Aksesoris",
+                price: 159000,
+                icon: "🕶️",
+                rating: 4.5
+            },
+            {
+                id: 11,
+                name: "Keyboard Mechanical",
+                category: "Elektronik",
+                price: 549000,
+                icon: "⌨️",
+                rating: 4.8
+            },
+            {
+                id: 12,
+                name: "Mouse Gaming",
+                category: "Elektronik",
+                price: 299000,
+                icon: "🖱️",
+                rating: 4.7
+            }
+        ];
+
+        let cart = [];
+        let currentCategory = "Semua";
+
+        const productList =
+            document.getElementById("productList");
+
+        const cartItems =
+            document.getElementById("cartItems");
+
+        const cartCount =
+            document.getElementById("cartCount");
+
+        const cartTotal =
+            document.getElementById("cartTotal");
+
+        function formatRupiah(number) {
+            return new Intl.NumberFormat(
+                "id-ID",
+                {
+                    style: "currency",
+                    currency: "IDR",
+                    minimumFractionDigits: 0
+                }
+            ).format(number);
+        }
+
+        function displayProducts(data = products) {
+
+            productList.innerHTML = "";
+
+            if (data.length === 0) {
+                productList.innerHTML = `
+                    <div class="empty">
+                        <h3>Produk tidak ditemukan</h3>
+                        <p>
+                            Coba gunakan kata kunci pencarian lain.
+                        </p>
+                    </div>
+                `;
+
+                return;
+            }
+
+            data.forEach(product => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className = "product";
+
+                card.innerHTML = `
+                    <button
+                        class="favorite"
+                        onclick="favoriteProduct(this)"
+                    >
+                        ♡
+                    </button>
+
+                    <div class="product-image">
+                        ${product.icon}
+                    </div>
+
+                    <div class="product-info">
+
+                        <div class="product-name">
+                            ${product.name}
+                        </div>
+
+                        <div class="rating">
+                            ⭐ ${product.rating}
+                        </div>
+
+                        <div class="price">
+                            ${formatRupiah(product.price)}
+                        </div>
+
+                        <button
+                            class="buy-button"
+                            onclick="addToCart(${product.id})"
+                        >
+                            + Tambah ke Keranjang
+                        </button>
+
+                    </div>
+                `;
+
+                productList.appendChild(card);
+            });
+        }
+
+        function addToCart(id) {
+
+            const product =
+                products.find(item => item.id === id);
+
+            const existing =
+                cart.find(item => item.id === id);
+
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+
+            updateCart();
+
+            showToast(
+                product.name +
+                " ditambahkan ke keranjang!"
+            );
+        }
+
+        function updateCart() {
+
+            cartItems.innerHTML = "";
+
+            if (cart.length === 0) {
+
+                cartItems.innerHTML = `
+                    <div class="empty">
+                        <h3>Keranjang masih kosong</h3>
+                        <p>
+                            Yuk mulai belanja sekarang!
+                        </p>
+                    </div>
+                `;
+
+            } else {
+
+                cart.forEach(item => {
+
+                    const div =
+                        document.createElement("div");
+
+                    div.className = "cart-item";
+
+                    div.innerHTML = `
+
+                        <div class="cart-item-image">
+                            ${item.icon}
+                        </div>
+
+                        <div class="cart-item-info">
+                            <strong>${item.name}</strong>
+                            <span>
+                                ${formatRupiah(item.price)}
+                            </span>
+                        </div>
+
+                        <div class="quantity">
+
+                            <button
+                                onclick="changeQuantity(
+                                    ${item.id}, -1
+                                )"
+                            >
+                                -
+                            </button>
+
+                            <span>${item.quantity}</span>
+
+                            <button
+                                onclick="changeQuantity(
+                                    ${item.id}, 1
+                                )"
+                            >
+                                +
+                            </button>
+
+                        </div>
+                    `;
+
+                    cartItems.appendChild(div);
+                });
+            }
+
+            let total = 0;
+            let count = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                count += item.quantity;
+            });
+
+            cartTotal.textContent =
+                formatRupiah(total);
+
+            cartCount.textContent = count;
+        }
+
+        function changeQuantity(id, amount) {
+
+            const item =
+                cart.find(product => product.id === id);
+
+            if (!item) return;
+
+            item.quantity += amount;
+
+            if (item.quantity <= 0) {
+                cart =
+                    cart.filter(product => product.id !== id);
+            }
+
+            updateCart();
+        }
+
+        function openCart() {
+
+            document
+                .getElementById("cartModal")
+                .classList.add("show");
+
+            updateCart();
+        }
+
+        function closeCart() {
+
+            document
+                .getElementById("cartModal")
+                .classList.remove("show");
+        }
+
+        function filterCategory(category, button) {
+
+            currentCategory = category;
+
+            document
+                .querySelectorAll(".category")
+                .forEach(item => {
+                    item.classList.remove("active");
+                });
+
+            button.classList.add("active");
+
+            const filtered =
+                category === "Semua"
+                    ? products
+                    : products.filter(
+                        product =>
+                            product.category === category
+                    );
+
+            displayProducts(filtered);
+        }
+
+        function searchProduct() {
+
+            const keyword =
+                document
+                    .getElementById("searchInput")
+                    .value
+                    .toLowerCase();
+
+            let result =
+                products.filter(product => {
+
+                    const matchName =
+                        product.name
+                            .toLowerCase()
+                            .includes(keyword);
+
+                    const matchCategory =
+                        product.category
+                            .toLowerCase()
+                            .includes(keyword);
+
+                    const matchCurrentCategory =
+                        currentCategory === "Semua" ||
+                        product.category === currentCategory;
+
+                    return (
+                        (matchName || matchCategory) &&
+                        matchCurrentCategory
+                    );
+                });
+
+            displayProducts(result);
+        }
+
+        function favoriteProduct(button) {
+
+            if (button.textContent === "♡") {
+                button.textContent = "❤️";
+            } else {
+                button.textContent = "♡";
+            }
+        }
+
+        function scrollToProducts() {
+
+            document
+                .getElementById("productSection")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+        }
+
+        function showToast(message) {
+
+            const toast =
+                document.getElementById("toast");
+
+            toast.textContent = message;
+
+            toast.classList.add("show");
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 2500);
+        }
+
+        function checkout() {
+
+            if (cart.length === 0) {
+
+                showToast(
+                    "Keranjang masih kosong!"
+                );
+
+                return;
+            }
+
+            let total = 0;
+
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+            });
+
+            alert(
+                "Checkout berhasil dibuat!\n\n" +
+                "Total pembayaran: " +
+                formatRupiah(total) +
+                "\n\n" +
+                "Terima kasih telah berbelanja di TokoKita."
+            );
+
+            cart = [];
+
+            updateCart();
+
+            closeCart();
+        }
+
+        document
+            .getElementById("cartModal")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (event.target === this) {
+                        closeCart();
+                    }
+
+                }
+            );
+
+        displayProducts();
+
+    </script>
+
+</body>
+</html>
